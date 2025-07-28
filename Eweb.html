@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Portfolio Website Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      padding: 20px;
+    }
+    .container {
+      display: flex;
+      gap: 30px;
+    }
+    .form, .result {
+      width: 50%;
+      padding: 20px;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 10px;
+    }
+    input, textarea, select, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    .portfolio-preview {
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .portfolio-preview img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🛠️ Portfolio Website Generator</h1>
+
+<div class="container">
+  <div class="form">
+    <label>Full Name:</label>
+    <input type="text" id="name" placeholder="John Doe">
+
+    <label>Profile Picture:</label>
+    <input type="file" id="photo" accept="image/*">
+
+    <label>Bio:</label>
+    <textarea id="bio" placeholder="Write a short bio..."></textarea>
+
+    <label>Work Experience:</label>
+    <textarea id="experience" placeholder="E.g. Web Developer at ABC Co..."></textarea>
+
+    <label>Select Theme Color:</label>
+    <select id="color">
+      <option value="#3498db">Blue</option>
+      <option value="#e74c3c">Red</option>
+      <option value="#2ecc71">Green</option>
+      <option value="#8e44ad">Purple</option>
+      <option value="#f39c12">Orange</option>
+    </select>
+
+    <button onclick="generatePortfolio()">Generate Portfolio</button>
+  </div>
+
+  <div class="result" id="portfolioOutput">
+    <h3>Preview will appear here 👇</h3>
+  </div>
+</div>
+
+<script>
+  function generatePortfolio() {
+    const name = document.getElementById("name").value;
+    const bio = document.getElementById("bio").value;
+    const experience = document.getElementById("experience").value;
+    const color = document.getElementById("color").value;
+    const photo = document.getElementById("photo").files[0];
+
+    const output = document.getElementById("portfolioOutput");
+
+    if (!name || !bio || !experience || !photo) {
+      output.innerHTML = "<p style='color: red;'>Please fill all fields and upload a photo.</p>";
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const imgSrc = e.target.result;
+
+      output.innerHTML = `
+        <div class="portfolio-preview" style="background: ${color}; color: white;">
+          <img src="${imgSrc}" alt="Profile Photo">
+          <h2>${name}</h2>
+          <p><strong>Bio:</strong> ${bio}</p>
+          <p><strong>Experience:</strong> ${experience}</p>
+        </div>
+      `;
+    };
+    reader.readAsDataURL(photo);
+  }
+</script>
+
+</body>
+</html>
